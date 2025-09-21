@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>명지대학교 셔틀 알림 서비스</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>명지대학교 셔틀 알림 서비스</h1>
+            <p>시간표를 입력하면 셔틀 시간을 알려드립니다!</p>
+        </header>
+
+        <main>
+            <!-- 시간표 입력 섹션 -->
+            <section class="schedule-section">
+                <h2>📅 시간표 입력</h2>
+                <div class="schedule-input">
+                    <div class="day-selector">
+                        <label>요일:</label>
+                        <select id="daySelect">
+                            <option value="monday">월요일</option>
+                            <option value="tuesday">화요일</option>
+                            <option value="wednesday">수요일</option>
+                            <option value="thursday">목요일</option>
+                            <option value="friday">금요일</option>
+                        </select>
+                    </div>
+                    
+                    <div class="class-input">
+                        <div class="time-input">
+                            <label>시작 시간:</label>
+                            <div class="time-selector">
+                                <select id="startHour" required>
+                                    <option value="">시간</option>
+                                    <option value="08">08시 (오전)</option>
+                                    <option value="09">09시 (오전)</option>
+                                    <option value="10">10시 (오전)</option>
+                                    <option value="11">11시 (오전)</option>
+                                    <option value="12">12시 (오후)</option>
+                                    <option value="13">13시 (오후)</option>
+                                    <option value="14">14시 (오후)</option>
+                                    <option value="15">15시 (오후)</option>
+                                    <option value="16">16시 (오후)</option>
+                                    <option value="17">17시 (오후)</option>
+                                    <option value="18">18시 (오후)</option>
+                                    <option value="19">19시 (오후)</option>
+                                    <option value="20">20시 (오후)</option>
+                                </select>
+                                <select id="startMinute" required>
+                                    <option value="">분</option>
+                                    <option value="00">00분</option>
+                                    <option value="10">10분</option>
+                                    <option value="20">20분</option>
+                                    <option value="30">30분</option>
+                                    <option value="40">40분</option>
+                                    <option value="50">50분</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="time-input">
+                            <label>종료 시간:</label>
+                            <div class="time-selector">
+                                <select id="endHour" required>
+                                    <option value="">시간</option>
+                                    <option value="08">08시 (오전)</option>
+                                    <option value="09">09시 (오전)</option>
+                                    <option value="10">10시 (오전)</option>
+                                    <option value="11">11시 (오전)</option>
+                                    <option value="12">12시 (오후)</option>
+                                    <option value="13">13시 (오후)</option>
+                                    <option value="14">14시 (오후)</option>
+                                    <option value="15">15시 (오후)</option>
+                                    <option value="16">16시 (오후)</option>
+                                    <option value="17">17시 (오후)</option>
+                                    <option value="18">18시 (오후)</option>
+                                    <option value="19">19시 (오후)</option>
+                                    <option value="20">20시 (오후)</option>
+                                </select>
+                                <select id="endMinute" required>
+                                    <option value="">분</option>
+                                    <option value="00">00분</option>
+                                    <option value="10">10분</option>
+                                    <option value="20">20분</option>
+                                    <option value="30">30분</option>
+                                    <option value="40">40분</option>
+                                    <option value="50">50분</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button id="addClass">수업 추가</button>
+                    </div>
+                </div>
+
+                <div class="schedule-display">
+                    <h3>등록된 시간표</h3>
+                    <div id="scheduleList"></div>
+                    <button id="clearSchedule">전체 삭제</button>
+                </div>
+            </section>
+
+            <!-- 셔틀 시간표 섹션 -->
+            <section class="shuttle-section">
+                <h2>🚌 셔틀 시간표</h2>
+                <div class="shuttle-times">
+                    <div class="shuttle-direction">
+                        <h3>🏫 학교로 (등교)</h3>
+                        <div class="time-slots">
+                            <span class="time-slot">07:30</span>
+                            <span class="time-slot">07:50</span>
+                            <span class="time-slot">08:10</span>
+                            <span class="time-slot">08:30</span>
+                            <span class="time-slot">08:50</span>
+                            <span class="time-slot">09:10</span>
+                            <span class="time-slot">09:30</span>
+                            <span class="time-slot">09:50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="shuttle-direction">
+                        <h3>🏠 집으로 (하교)</h3>
+                        <div class="time-slots">
+                            <span class="time-slot">15:30</span>
+                            <span class="time-slot">15:50</span>
+                            <span class="time-slot">16:10</span>
+                            <span class="time-slot">16:30</span>
+                            <span class="time-slot">16:50</span>
+                            <span class="time-slot">17:10</span>
+                            <span class="time-slot">17:30</span>
+                            <span class="time-slot">17:50</span>
+                            <span class="time-slot">18:10</span>
+                            <span class="time-slot">18:30</span>
+                            <span class="time-slot">18:50</span>
+                            <span class="time-slot">19:10</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 알림 섹션 -->
+            <section class="notification-section">
+                <h2>🔔 알림</h2>
+                <div class="notification-controls">
+                    <button id="startNotifications">알림 시작</button>
+                    <button id="stopNotifications">알림 중지</button>
+                    <button id="testKakao">카카오톡 테스트</button>
+                    <button id="testShuttle">셔틀 알림 테스트</button>
+                    <button id="calculateOnServerBtn" class="control-btn">서버로 알림 계산하기 (테스트용)</button>
+                </div>
+                <div id="notificationStatus"></div>
+                <div id="nextNotifications"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>💡 수업 시작 1시간 전, 종료 30분 전에 알림을 받을 수 있습니다</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
