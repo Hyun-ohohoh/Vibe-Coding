@@ -193,109 +193,6 @@ def update_shuttle_schedule():
         'data': shuttle_schedule
     })
 
-# @app.route('/api/calculate-notifications', methods=['POST'])
-# def calculate_notifications():
-#     """알림 계산 API"""
-#     try:
-#         data = request.get_json()
-#         schedule = data.get('schedule', {})
-#
-#         if not schedule:
-#             return jsonify({
-#                 'success': False,
-#                 'message': '시간표가 입력되지 않았습니다.'
-#             }), 400
-#
-#         notifications = []
-#         now = datetime.now()
-#         #current_day = now.strftime('%A').lower()
-#         current_day = 'monday'
-#         #current_time = now.strftime('%H:%M')
-#         current_time = datetime(2025, 9, 15, 8, 30)
-#
-#         # 현재 요일의 시간표가 있는지 확인
-#         day_mapping = {
-#             'monday': '월요일',
-#             'tuesday': '화요일',
-#             'wednesday': '수요일',
-#             'thursday': '목요일',
-#             'friday': '금요일',
-#             'saturday': '토요일',
-#             'sunday': '일요일'
-#         }
-#
-#         korean_day_mapping = {
-#             '월요일': 'monday',
-#             '화요일': 'tuesday',
-#             '수요일': 'wednesday',
-#             '목요일': 'thursday',
-#             '금요일': 'friday',
-#             '토요일': 'saturday',
-#             '일요일': 'sunday'
-#         }
-#
-#         today_schedule = schedule.get(current_day, schedule.get(korean_day_mapping.get(day_mapping.get(current_day))))
-#
-#         if not today_schedule:
-#             return jsonify({
-#                 'success': True,
-#                 'message': '오늘은 수업이 없습니다.',
-#                 'notifications': []
-#             })
-#
-#         # 첫 수업과 마지막 수업 찾기
-#         sorted_schedule = sorted(today_schedule, key=lambda x: x['start'])
-#         first_class = sorted_schedule[0]
-#         last_class = sorted_schedule[-1]
-#
-#         # 첫 수업 시작 1시간 전 알림 계산
-#         one_hour_before = subtract_minutes(first_class['start'], 60)
-#         morning_shuttles = find_nearest_shuttles(one_hour_before, 'toSchool')
-#
-#         morning_notification = {
-#             'type': 'morning',
-#             'title': '등교 셔틀 알림',
-#             'message': f"첫 수업 시작 1시간 전입니다! {', '.join(morning_shuttles)}에 셔틀이 있습니다.",
-#             'time': one_hour_before,
-#             'shuttles': morning_shuttles,
-#             'originalTime': first_class['start']
-#         }
-#         notifications.append(morning_notification)
-#
-#         # 마지막 수업 종료 30분 전 알림 계산
-#         thirty_minutes_before = subtract_minutes(last_class['end'], 30)
-#         evening_shuttles = find_nearest_shuttles(last_class['end'], 'toHome')
-#
-#         evening_notification = {
-#             'type': 'evening',
-#             'title': '하교 셔틀 알림',
-#             'message': f"마지막 수업 종료 30분 전입니다! {', '.join(evening_shuttles)}에 셔틀이 있습니다.",
-#             'time': thirty_minutes_before,
-#             'shuttles': evening_shuttles,
-#             'originalTime': last_class['end']
-#         }
-#         notifications.append(evening_notification)
-#
-#         # 카카오톡 알림 전송 (테스트용)
-#         for notification in notifications:
-#             send_simple_kakao_message(notification['title'], notification['message'])
-#
-#         return jsonify({
-#             'success': True,
-#             'notifications': notifications,
-#             'currentTime': current_time,
-#             'todaySchedule': today_schedule
-#         })
-#
-#     except Exception as error:
-#         print(f'알림 계산 오류: {error}')
-#         return jsonify({
-#             'success': False,
-#             'message': '알림 계산 중 오류가 발생했습니다.'
-#         }), 500
-
-# server.py 파일에서 이 함수를 찾아 아래 내용으로 전체 교체하세요.
-
 @app.route('/api/calculate-notifications', methods=['POST'])
 def calculate_notifications():
     """알림 계산 API (수정된 로직)"""
@@ -310,9 +207,9 @@ def calculate_notifications():
 
         # --- 테스트를 위한 시간 강제 설정 ---
         # 실제 운영 시에는 아래 두 줄을 주석 처리하고, now = datetime.now()를 사용하세요.
-        now = datetime(2025, 9, 15, 8, 0, 0)  # 예: '월요일 오전 8시 00분'으로 시간 고정
-        print(f"--- 테스트 모드: 현재 시간을 {now.strftime('%Y-%m-%d %H:%M:%S')}로 설정 ---")
-        # now = datetime.now() # 실제 운영 시 이 줄의 주석을 해제하세요.
+        #now = datetime(2025, 9, 15, 8, 0, 0)  # 예: '월요일 오전 8시 00분'으로 시간 고정
+        #print(f"--- 테스트 모드: 현재 시간을 {now.strftime('%Y-%m-%d %H:%M:%S')}로 설정 ---")
+        now = datetime.now() # 실제 운영 시 이 줄의 주석을 해제하세요.
         # -----------------------------------
 
         current_day_str = now.strftime('%A').lower()
@@ -327,7 +224,7 @@ def calculate_notifications():
         first_class = sorted_schedule[0]
         last_class = sorted_schedule[-1]
 
-        # === [수정된 로직] 등교 알림 계산 ===
+        # === 등교 알림 계산 ===
         # 1. 알림이 울려야 하는 시간 (수업 1시간 전)
         notification_trigger_time = subtract_minutes(first_class['start'], 60)
 
